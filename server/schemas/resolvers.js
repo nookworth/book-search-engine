@@ -5,7 +5,10 @@ const { signToken } = require('../utils/auth');
 const resolvers = {
 Query: {
     me: async (parent, { username }) => {
-      return User.findOne({ username });
+      const user = await User.findOne({ username });
+      const token = signToken(user);  
+      return { token, user };
+
     },
   },
 
@@ -36,12 +39,24 @@ Query: {
         const updatedUser = await User.findOneAndUpdate(
             { username },
             { $addToSet: { savedBooks: criteria } },
-            { new: true, runValidators: true }
+            { new: true }
           );
 
         if (!updatedUser) {
             throw new AuthenticationError('No user found with this username');
         }
+
+        return updatedUser;
+    },
+    removeBook: async(parent, { username, bookId }) => {
+        const updatedUser = await User.findOneAndUpdate(
+            { username },
+            { $pull: { savedBooks: { bookId } } },
+            { new: true }
+          );
+          if (!updatedUser) {
+            throw new AuthenticationError('No user found with this username');
+          }
 
         return updatedUser;
     }
