@@ -1,7 +1,6 @@
 import { gql } from 'apollo-server-express';
 
-export const QUERIES = gql`
-  
+export const GET_ME = gql`
   {
     me {
       _id
@@ -13,8 +12,8 @@ export const QUERIES = gql`
         title
         description
         authors
-        image
         link
+        image
       }
     }
   }

@@ -30,8 +30,8 @@ export const ADD_USER = gql`
     }`;
 
 export const SAVE_BOOK = gql`
-mutation saveBook($username: String!, $criteria: SaveBookInput!) {
-    saveBook(username: $username, criteria: $criteria) {
+mutation saveBook($criteria: SaveBookInput!) {
+    saveBook(criteria: $criteria) {
         User {
             _id
             username
